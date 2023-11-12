@@ -1,0 +1,12 @@
+#jinja2:variable_start_string:'[[',variable_end_string:']]'
+options {
+	directory "/var/named/slaves";
+	allow-query {localhost; 192.168.120.0/24;};
+	forwarders {192.168.120.1;};
+	recursion yes;
+	allow-recursion {localhost; 192.168.120.0/24;};
+};
+zone "[[zonename]]" {
+	type master;
+	file "[[zonename]].fwd";
+};
