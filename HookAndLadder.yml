@@ -1,25 +1,31 @@
 ---
-- hosts: dnsprime
+- name: Question1
+  hosts: dnsprime
   remote_user: root
   vars:
     zonename: puppet.man
     master: 192.168.120.2
   tasks:
     - name: Make sure bind is installed
-      package:
+      dnf:
         name: bind
         state: latest
     - name: copy config file to client
-      copy: src=named.j2 dest=/etc/named.conf
-        owner=root group=named mode=0640
+      copy: 
+	src: named.j2 
+	dest: /etc/named.conf
+        owner:root 
+	group:named 
+	mode:0640
       notify:
        restart named
     - name: make sure named is running
       service:
         name: named
         state: started
+	enabled: yes
   handlers:
     - name: restart named
       service:
         name: named
-        enabled: yes
+	state: restarted
